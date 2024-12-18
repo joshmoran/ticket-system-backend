@@ -16,8 +16,6 @@ const options = {
     connectionLimit: 10
 };
 
-console.log('options: ', options);
-
 const pool = mysql.createPool(options);
 
 app.use(cors());
@@ -85,7 +83,6 @@ app.get('/ticket/:id', (req, res) => {
 app.post("/message", (req, res) => {
     const messageBody = req.body;
 
-    console.log(messageBody )
     const id = messageBody.ticket_id;
     const username = messageBody.username;
     const message = messageBody.messages;
@@ -114,6 +111,21 @@ app.get("/message/:id", (req, res) => {
 
         res.send(result);
     });
+});
+
+app.get("/change/:id/:status", (req, res ) => {
+    const id = req.params.id;
+    const status = req.params.status;
+
+    pool.query("Update ticket set status = ? where id = ?", [status, id], (error, result ) => {
+        if( error ) {
+            console.error(error);
+            res.send(error);
+            return;
+        }
+
+        res.send("Update successfully completed")
+    })
 });
 
 app.get("/all", (req, res) => {
