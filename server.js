@@ -11,7 +11,7 @@ const app = express();
 const options = {
     host: process.env.HOST,
     database: process.env.DATABASE,
-    user: 'ticketuser',
+    user: process.env.USERNAME,
     password: process.env.PASSWORD,
     connectionLimit: 10
 };
